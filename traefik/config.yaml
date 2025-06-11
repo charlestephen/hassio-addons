@@ -1,5 +1,5 @@
 name: Traefik
-version: 5.0.0
+version: 5.1.0
 slug: traefik
 description: |
   Traefik is a modern HTTP reverse proxy and load balancer that makes deploying
@@ -16,7 +16,7 @@ startup: system
 init: false
 stage: stable
 boot: auto
-url: https://www.github.com/RedX2501/home-assistant-addons/tree/master/traefik
+url: https://www.github.com/charlestephen/home-assistant-addons/tree/master/traefik
 ports:
   80/tcp: 80
   443/tcp: 443
@@ -25,11 +25,9 @@ ports_description:
   80/tcp: HTTP
   443/tcp: HTTPS
   8080/tcp: Web Interface
-# The dashboard does not load fully
-# when using ingress.
-#ingress: true
-#ingress_entry: dashboard/
-#ingress_port: 8080
+ingress: true
+ingress_entry: dashboard/
+ingress_port: 8080
 discovery:
   - traefik
 hassio_role: default
@@ -40,12 +38,12 @@ map:
   - ssl:rw
 options:
   log_level: info
-  access_logs: false
-  forwarded_headers_insecure: false
-  insecure_skip_verify: false
+  access_logs: true
+  forwarded_headers_insecure: true
+  insecure_skip_verify: true
   dynamic_configuration_path: "/homeassistant/traefik/"
   letsencrypt:
-    enabled: false
+    enabled: true
     resolvers: []
   env_vars: []
 schema:
