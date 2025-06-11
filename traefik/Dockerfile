@@ -20,14 +20,14 @@ COPY rootfs /
 LABEL \
     io.hass.name="Treafik for ${BUILD_ARCH}" \
     io.hass.description="Home Assistant Unofficial Add-on: ${BUILD_ARCH} Traefik image" \
-    maintainer="Guilherme Bufolo <guibufolo+ha.traefik@gmail.com>" \
+    maintainer="Charles Stephen Thompson <hassio@cst.wtf>" \
     org.opencontainers.image.title="Traefik for ${BUILD_ARCH}" \
     org.opencontainers.image.description="Home Assistant Unofficial Add-on: ${BUILD_ARCH} Traefik image" \
-    org.opencontainers.image.vendor="Guilherme Bufolo" \
-    org.opencontainers.image.authors="Guilherme Bufolo <guibufolo+ha.traefik@gmail.com>" \
-    org.opencontainers.image.url="https://github.com/RedX2501/home-assistant-addons/" \
-    org.opencontainers.image.source="https://github.com/RedX2501/home-assistant-addons/" \
-    org.opencontainers.image.documentation="https://github.com/RedX2501/home-assistant-addons/blob/master/traefik/README.md" \
+    org.opencontainers.image.vendor="Charles Stephen Thompson" \
+    org.opencontainers.image.authors="Charles Stephen Thompson <hassio@cst.wtf>" \
+    org.opencontainers.image.url="https://github.com/charlestephen/home-assistant-addons/" \
+    org.opencontainers.image.source="https://github.com/charlestephen/home-assistant-addons/" \
+    org.opencontainers.image.documentation="https://github.com/charlestephen/home-assistant-addons/blob/master/traefik/README.md" \
     org.opencontainers.image.created=${BUILD_DATE} \
     org.opencontainers.image.revision=${BUILD_REF} \
     org.opencontainers.image.version=${BUILD_VERSION}
