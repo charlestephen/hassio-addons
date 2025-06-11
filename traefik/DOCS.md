@@ -36,7 +36,7 @@ http:
 
     homeAssistantRouter:
       rule: "Host(`hass.io`)"
-      entryPoints: ["web-secure"]
+      entryPoints: ["websecure"]
       tls:
         certResolver: le
       service: homeAssistantService
