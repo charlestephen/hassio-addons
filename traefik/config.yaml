@@ -1,7 +1,7 @@
 name: Traefik
 description: Traefik is a modern HTTP reverse proxy and load balancer that makes deploying microservices easy.
 url: https://github.com/charlestephen/hassio-addons/tree/main/traefik
-version: 1.0.0
+version: 1.0.1
 stage: stable
 slug: traefik
 codenotary: notary@home-assistant.io
@@ -37,6 +37,7 @@ custom_config: false
 log_level: info
 access_logs: false
 forwarded_headers_insecure: false
+dynamic_configuration_path: /config/traefik/dynamic/
 letsencrypt:
   enabled: false
   resolvers: []
@@ -48,6 +49,7 @@ custom_config: bool
 log_level: list(trace|debug|info|notice|warning|error|fatal)
 access_logs: bool
 forwarded_headers_insecure: bool
+dynamic_configuration_path: str
 letsencrypt:
   enabled: bool
   email: email?
