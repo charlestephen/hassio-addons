@@ -49,6 +49,7 @@ schema:
   log_level: list(trace|debug|info|notice|warning|error|fatal)
   access_logs: bool
   forwarded_headers_insecure: bool
+dynamic_configuration_path: str
   letsencrypt:
     enabled: bool
     email: email?

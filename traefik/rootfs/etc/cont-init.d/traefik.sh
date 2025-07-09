@@ -21,7 +21,7 @@ bashio::log.info "Ensuring directory '$config_dir' exists ..."
 mkdir -v -p $config_dir/
 chmod -R 755 $config_dir
 
-bashio::log.info "Ensuring directory '$config_dir/$dynamic_dir' exists ..."
+bashio::log.info "Ensuring directory '$dynamic_dir' exists ..."
 mkdir -v -p $config_dir/$dynamic_dir
 chmod -R 755 $config_dir/$dynamic_dir
 
