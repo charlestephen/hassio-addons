@@ -9,7 +9,7 @@ global:
 entryPoints:
   web:
     address: ":80"
-  web-secure:
+  websecure:
     address: ":443"
 {{- if .forwarded_headers_insecure }}
     forwardedHeaders:
@@ -18,7 +18,7 @@ entryPoints:
 
 api:
   dashboard: true
-  insecure: true
+  insecure: false
 
 {{ if .letsencrypt.enabled -}}
 certificatesResolvers:
