@@ -1,5 +1,5 @@
 {
-    "name": "CharleStephen's Add-ons Shack",
-    "url": "https://www.github.com/charlestephen/home-assistant-addons",
-    "maintainer": "Charles Stephen Thompson <hassio-addons@cst.wtf>"
-  }
+	"name": "CharleStephen's Hassio Add-ons",
+	"url": "https://www.github.com/charlestephen/hassio-addons",
+	"maintainer": "CharleStephen <hassio-addons@cst.wtf>"
+}

@@ -1,24 +1,24 @@
-name: 'Build and test traefik addon'
+name: 'Build and test tailscale addon'
 
 env:
-  ADDON_DIRECTORY: traefik
+  ADDON_DIRECTORY: tailscale
 
 on:
   push:
     paths:
-      - 'traefik/**'
+      - 'tailscale/**'
     branches:
       - main
   schedule:
     - cron: "0 9 * * 0"
   pull_request:
     paths:
-      - 'traefik/**'
+      - 'tailscale/**'
   workflow_dispatch:
 
 jobs:
   build:
-    name: Test build of traefik addon
+    name: Test build of tailscale addon
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository

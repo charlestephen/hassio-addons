@@ -1,27 +1,28 @@
-# Unofficial Home Assistant Add-ons: Traefik
-
-Traefik bundled as an Home Assistant add-on.
+# Home Assistant Add-on: Traefik
 
 ## Installation
 
 Follow these steps to get the add-on installed on your system:
 
-1. Navigate in your Home Assistant frontend to __Supervisor -> Add-on Store__
-2. Add this new repository by URL (`https://github.com/charlestephen/home-assistant-addons`)
-3. Find the "Traefik" add-on and click it.
-4. Click on the "INSTALL" button
+1. Click the Home Assistant My button below to open the add-on on your Home Assistant instance.
+   [![Open your Home Assistant instance and show the dashboard of an add-on.](https://my.home-assistant.io/badges/supervisor_addon.svg)](https://my.home-assistant.io/redirect/supervisor_addon/?addon=bb4914d7_traefik&repository_url=https%3A%2F%2Fgithub.com%2Fcharlestephen%2Fhassio-addons)
+2. Click the `Install` button to install the add-on.
+3. Go to the `Configuration` tab and set the options to your preferences
+4. Click the `Save` button to store your configuration.
+5. Go back to the `Info` tab and start this add-on.
+6. Check the logs in the `Log` tab to see if everything went well.
 
 ## How to use
 
-In the configuration section you will need to set the required configuration path. This can be a directory within your Home Assistant config, which is mounted read-only by this add-on. See the configuration `dynamic_configuration_path`.
+In the configuration section you will need to set the required configuration path.
+This can be a directory within your Home Assistant config or Hass.io share directories, since both are read-only mounted on this add-on.
 
-Any Traefik endpoint configuration you put in there will be automatically picked up by this add-on. Updates will also be automatically processed by Traefik.
+Any Traefik endpoint configuration you put in there will be automatically picked up by this add-on.
+Updates will also be automatically processed by Traefik.
 
 You can also enable Let's Encrypt support within the configuration and set additional environment variables when those are needed.
 
-This add-on provides two Traefik entrypoints. `web` on port 80 and `web-secure` on port 443.
-
-The dashboard can be accessed using port 8080.
+This add-on provides three Traefik entrypoints. `web` on port 80, `websecure` on port 443, and `traefik` on port 8080. The `traefik` entrypoint is used for the Traefik API and dashboard.
 
 ### Example dynamic Traefik configuration
 
@@ -36,7 +37,7 @@ http:
 
     homeAssistantRouter:
       rule: "Host(`hass.io`)"
-      entryPoints: ["websecure"]
+      entryPoints: ["web-secure"]
       tls:
         certResolver: le
       service: homeAssistantService
@@ -60,13 +61,13 @@ http:
 
 ## Configuration
 
-Full add-on example configuration for Let's Encrypt with Cloudflare DNS proxy and dynamic configuration within your Home Assistant configuration directory:
+The Traefik dynamic configuration can be broken down into multiple files and placed in the /dynamic folder. Full add-on example configuration for Let's Encrypt with Cloudflare DNS proxy and dynamic configuration within your Home Assistant configuration directory:
 
 ```yaml
+custom_static_config: false
 log_level: INFO
 access_logs: false
 forwarded_headers_insecure: true
-dynamic_configuration_path: /config/traefik
 letsencrypt:
   enabled: true
   email: example@home-assistant.io
@@ -80,9 +81,24 @@ env_vars:
   - ANOTHER_ENV_VARIABLE=SOME-VALUE
 ```
 
-### Option `log_level` (required)
+> [!TIP]
+> Please be aware that if the path `/config/*` is used in the addon-configuration,
+> this path is actually mapped to the directoy `/addon_configs/bb4914d7_traefik/`.
 
-The `log_level` option controls the level of log output by the addon and can
+### Option `custom_static_config` (mandatory)
+
+Enable this option to use a custom static configuration (traefik.yaml). It is strongly recommended to enable this option, as it allows you to use a custom `traefik.yaml` file for your static configuration.
+
+When this option is enabled, the add-on will look for a `traefik.yaml` file in the directory `/addon_configs/bb4914d7_traefik/`.
+If there is no `traefik.yaml` in the directory `/addon_configs/bb4914d7_traefik/`, a default `traefik.yaml` is created.
+If this option is disabled, a default `traefik.yaml` is created each time the addon is started.
+If this option is enabled, your current `traefik.yaml` will be used on next addon start.
+
+### Option `log_level` (mandatory)
+
+The `log_level` option controls the level of log output by the addon and Enable this option to use a custom smb.conf.
+If there is no smb.conf file in the `config_dir` directory, then a default smb.conf is created.
+If this option is disabled a default smb.conf is created each time the addon is started.  can
 be changed to be more or less verbose, which might be useful when you are
 dealing with an unknown issue. Possible values are:
 
@@ -98,35 +114,33 @@ more severe level, e.g., `debug` also shows `info` messages. By default,
 the `log_level` is set to `info`, which is the recommended setting unless
 you are troubleshooting.
 
-### Option `access_logs` (required)
+### Option `access_logs` (mandatory)
 
-Whether to enable access logging to standard out. These logs will be shown in the Hass.io Add-On panel.
+Whether to enable access logging to standard out.
+These logs will be shown in the Hass.io Add-On panel.
 
-### Option `forwarded_headers_insecure` (required)
+### Option `forwarded_headers_insecure` (mandatory)
 
-Enables insecure forwarding headers. When this option is enabled, the forwarded headers (`X-Forwarded-*`) will not be replaced by Traefik headers. Only enable this option when you trust your forwarding proxy.
+Enables insecure forwarding headers.
+When this option is enabled, the forwarded headers (`X-Forwarded-*`) will not be replaced by Traefik headers.
+Only enable this option when you trust your forwarding proxy.
 
-> ___Note__ for Cloudflare `X-Forwarded-*` proxied headers to work, this must be enabled._
+> [!NOTE]
+> for Cloudflare `X-Forwarded-*` proxied headers to work, this must be enabled.
 
-### Option `insecure_skip_verify` (required)
+### Option `letsencrypt.enabled` (mandatory)
 
-Enables `serverTransports.insecureSkipVerify`. This option disables SSL certificate verification.
+Whether or not to enable Let's Encrypt. When this is enabled the `le` certResolver will be activated for you to use.
+You will also have to set the Let's Encrypt e-mail and challange type. Otherwise Traefik will fail to start.
 
-### Option `dynamic_configuration_path` (required)
-
-Path to the directory with the dynamic endpoint configuration. See the example above. 
-
-### Option `letsencrypt.enabled` (required)
-
-Whether or not to enable Let's Encrypt. When this is enabled the `le` certResolver will be activated for you to use. You will also have to set the Let's Encrypt e-mail and challange type. Otherwise Traefik will fail to start.
-
-### Option `letsencrypt.email`
+### Option `letsencrypt.email` (optional)
 
 Your personal e-mail that you want to use for Let's Encrypt.
 
-> _**Note** This is required when Let's Encrypt is enabled._
+> [!NOTE]
+> This is required when Let's Encrypt is enabled.
 
-### Option `letsencrypt.challenge_type`
+### Option `letsencrypt.challenge_type` (optional)
 
 A challange type you want to use for Let's Encrypt. Valid options are:
 
@@ -134,42 +148,71 @@ A challange type you want to use for Let's Encrypt. Valid options are:
 * `httpChallenge`
 * `dnsChallenge`
 
-For more information on challange types and which one to choose, please see the [ACME section](https://docs.traefik.io/https/acme/) of the Treafik documentation regarding this subject.
+For more information on challange types and which one to choose,
+please see the [ACME section](https://docs.traefik.io/https/acme/) of the Treafik documentation regarding this subject.
 
-### Option `letsencrypt.provider`
+### Option `letsencrypt.provider` (optional)
 
-When using the `dnsChallange` you will also need to set a provider to use. The list of providers can be found in the [Let's Encrypt provider section](https://docs.traefik.io/https/acme/#providers) of the Traefik documentation.
+When using the `dnsChallange` you will also need to set a provider to use.
+The list of providers can be found in the [Let's Encrypt provider section](https://docs.traefik.io/https/acme/#providers) of the Traefik documentation.
 
-### Option `letsencrypt.ca_server`
+### Option `letsencrypt.delayBeforeCheck` (optional)
 
-Explicitly set the Let's Encrypt server to use.
+By default, the provider will verify the TXT DNS challenge record before letting ACME verify.
+If `delayBeforeCheck` is set and greater than zero, this check is delayed for the configured duration in seconds.
 
-### Option `letsencrypt.delayBeforeCheck`
+This setting can be useful if internal networks block external DNS queries. For more information,
+check the [Traefik documentation](https://docs.traefik.io/https/acme/#dnschallenge) regarding this subject.
 
-By default, the provider will verify the TXT DNS challenge record before letting ACME verify. If `delayBeforeCheck` is set and greater than zero, this check is delayed for the configured duration in seconds. 
+### Option `letsencrypt.resolvers` (optional)
 
-This setting can be useful if internal networks block external DNS queries. For more information, check the [Traefik documentation](https://docs.traefik.io/https/acme/#dnschallenge) regarding this subject.
-
-### Option `letsencrypt.resolvers`
-
-Manually set the DNS servers to use when performing the verification step. Useful for situations where internal DNS does not resolve to the same addresses as the public internet (e.g. on a LAN using a FQDN as part of hostnames). 
+Manually set the DNS servers to use when performing the verification step.
+Useful for situations where internal DNS does not resolve to the same addresses as the public internet (e.g. on a LAN using a FQDN as part of hostnames).
 
 For more information, see the [Traefik documentation](https://docs.traefik.io/https/acme/#resolvers) regarding this subject.
 
-### Option `env_vars`
+### Option `env_vars` (optional)
 
-Optional environment variables that can be added. These additional configuration values can be necessary for example for the Let's Encrypt DNS challange provider. See the example configuration above for an concrete example.
+Optional environment variables that can be added.
+These additional configuration values can be necessary for example for the Let's Encrypt DNS challange provider.
+See the example configuration above for an concrete example.
 
-## Entrypoints
+## Ports
 
-This image exposes two ports for HTTP(S) access. These are also configured within Traefik as entrypoints. You can use these within your dynamic configuration.
+This image exposes two ports for HTTP(S) access.
+These are also configured within Traefik as entrypoints.
+You can use these within your dynamic configuration.
 
-### EntryPoint `web`, port `80`
+### Port `80`, EntryPoint `web`
 
-Port 80 is used for HTTP access. 
+Port 80 is used for HTTP access.
 
-When using a supported Let's Encrypt provider (ie. Cloudflare) with DNS Challange you can also map this port to another, random port and let CloudFlare do the HTTP to HTTPS forwarding.
+When using a supported Let's Encrypt provider (ie. Cloudflare) with DNS Challange you can also map this port to another,
+random port and let CloudFlare do the HTTP to HTTPS forwarding.
 
-### EntryPoint `web-secure`, port `443`
+### Port `443`, EntryPoint `websecure`
 
 Port 443 is used for HTTPS access.
+
+### Port `8080`, EntryPoint `traefik`
+
+Port 8080 is used for the Traefik API & dashboard. Ideally, this port should not be exposed to the public and you should only access it from your localhost as it contains sensitive information. You can protect this entrypoint by creating an HTTPS router rule for it such that only authenticated users can access it. The default created `traefik.yaml` file automatically prevents access to the Traefik API & dashboard unless you override it with a custom `traefik.yaml` file or create a router rule for it in your dynamic configuration.
+
+## Changelog & Releases
+
+Releases are based on [Semantic Versioning](https://semver.org/lang/de/spec/v2.0.0.html), and use the format of `MAJOR.MINOR.PATCH`.
+In a nutshell, the version will be incremented based on the following:
+
+- `MAJOR`: Incompatible or major changes.
+- `MINOR`: Backwards-compatible new features and enhancements.
+- `PATCH`: Backwards-compatible bugfixes and package updates.
+
+## Support
+
+Got questions?
+You can simply [open an issue here](https://github.com/charlestephen/hassio-addons/issues) on GitHub.
+
+## Authors & contributors
+
+The original setup of this repository is made by [alex3305](https://github.com/alex3305):
+- [alex3305/home-assistant-addons/traefik](https://github.com/alex3305/home-assistant-addons/blob/master/traefik)

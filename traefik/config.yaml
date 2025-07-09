@@ -1,65 +1,57 @@
 name: Traefik
-version: 5.1.0
+description: Traefik is a modern HTTP reverse proxy and load balancer that makes deploying microservices easy.
+url: https://github.com/charlestephen/hassio-addons/tree/main/traefik
+version: 1.0.0
+stage: stable
 slug: traefik
-description: |
-  Traefik is a modern HTTP reverse proxy and load balancer that makes deploying
-  microservices easy.
-breaking_versions:
-  - 5.0.0
-arch:
-  - aarch64
-  - amd64
-  - armhf
-  - armv7
-  - i386
+codenotary: notary@home-assistant.io
 startup: system
 init: false
-stage: stable
 boot: auto
-url: https://www.github.com/charlestephen/home-assistant-addons/tree/master/traefik
+hassio_role: default
+hassio_api: true
+auth_api: true
+ingress: true
+ingress_entry: dashboard/
+panel_icon: mdi:earth-arrow-right
 ports:
   80/tcp: 80
-  443/tcp: 443
-  8080/tcp: 8080
+443/tcp: 443
+8080/tcp: 8080
 ports_description:
   80/tcp: HTTP
   443/tcp: HTTPS
-  8080/tcp: Web Interface
-ingress: true
-ingress_entry: dashboard/
-ingress_port: 8080
-discovery:
-  - traefik
-hassio_role: default
-hassio_api: true
-panel_icon: mdi:earth-arrow-right
+  8080/tcp: Traefik
+arch:
+- aarch64
+- amd64
+- armhf
+- armv7
+- i386
 map:
-  - homeassistant_config
-  - ssl:rw
+- addon_config:rw
+- ssl:rw
 options:
+custom_config: false
   log_level: info
-  access_logs: true
-  forwarded_headers_insecure: true
-  insecure_skip_verify: true
-  dynamic_configuration_path: "/homeassistant/traefik/"
+access_logs: false
+forwarded_headers_insecure: false
   letsencrypt:
-    enabled: true
+enabled: false
     resolvers: []
   env_vars: []
 schema:
+custom_config: bool
   log_level: list(trace|debug|info|notice|warning|error|fatal)
   access_logs: bool
-  forwarded_headers_insecure: bool
-  insecure_skip_verify: bool
-  dynamic_configuration_path: str
+forwarded_headers_insecure: bool
   letsencrypt:
     enabled: bool
     email: email?
-    challenge_type: match(tlsChallenge|httpChallenge|dnsChallenge)?
-    ca_server: str?
+challenge_type: match(tlsChallenge|httpChallenge|dnsChallenge)?
     provider: str?
     delayBeforeCheck: int?
     resolvers:
-      - str?
+- str?
   env_vars:
-    - str
+- str

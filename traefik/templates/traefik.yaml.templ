@@ -1,0 +1,60 @@
+# Traefik static configuration
+# !!! Changes will only take effect after the Home Assistant Traefik add-on has been restarted !!!
+# To regenerate the static configuration file please delete this file and restart the Traefik Addon.
+
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+entryPoints:
+  web:
+    address: ":80"
+  web-secure:
+    address: ":443"
+{{- if .forwarded_headers_insecure }}
+    forwardedHeaders:
+      insecure: {{ .forwarded_headers_insecure }}
+{{- end }}
+
+api:
+  dashboard: true
+  insecure: true
+
+{{ if .letsencrypt.enabled -}}
+certificatesResolvers:
+  le:
+    acme:
+      email: "{{ .letsencrypt.email }}"
+      storage: "/ssl/traefik/acme.json"
+  {{- if or (not (.letsencrypt.challenge_type)) (eq .letsencrypt.challenge_type "tlsChallenge") }}
+      tlsChallenge: {}
+  {{- else if eq .letsencrypt.challenge_type "httpChallenge" }}
+      httpChallenge:
+        entryPoint: web
+  {{- else if eq .letsencrypt.challenge_type "dnsChallenge" }}
+      dnsChallenge:
+        provider: {{ .letsencrypt.provider }}
+    {{- if .letsencrypt.delayBeforeCheck }}
+        delayBeforeCheck: {{ .letsencrypt.delayBeforeCheck }}
+    {{- end }}
+      {{- if and (.letsencrypt.resolvers) (gt (len .letsencrypt.resolvers) 0) }}
+        resolvers:
+        {{- range .letsencrypt.resolvers }}
+          - "{{ . }}"
+        {{- end }}
+      {{- end }}
+  {{- end }}
+{{- end }}
+
+providers:
+  file:
+    directory: "/config"
+    watch: true
+{{- if .access_logs}}
+
+accessLog:
+  filePath: "/config/log/access.log"
+{{- end }}
+
+log:
+  level: {{ upper .log_level }}

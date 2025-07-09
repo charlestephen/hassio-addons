@@ -1,0 +1,6 @@
+build_from:
+  amd64: tailscale/tailscale:latest
+  aarch64: tailscale/tailscale:latest
+  armv7: tailscale/tailscale:latest
+  armhf: tailscale/tailscale:latest
+  i386: tailscale/tailscale:latest

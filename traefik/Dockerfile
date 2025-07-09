@@ -1,33 +1,56 @@
-ARG BUILD_FROM
+ARG BUILD_FROM=ghcr.io/hassio-addons/base:18.0.2
 
-FROM $BUILD_FROM
+FROM ${BUILD_FROM}
+
+ARG NGINX_VERSION=1.26.3-r0
+ARG TRAEFIK_VERSION=3.4.3
+
+RUN apk add --no-cache \
+            nginx=${NGINX_VERSION} \
+            traefik=${TRAEFIK_VERSION}
+
+RUN mkdir -p /etc/traefik
+
+# Copy local files
+COPY rootfs/ /
+
+# Corrects permissions for s6 v3
+RUN if [ -d /etc/cont-init.d ]; then \
+      chmod -R 755 /etc/cont-init.d; \
+    fi && \
+    if [ -d /etc/services.d ]; then \
+      chmod -R 755 /etc/services.d; \
+    fi && \
+    if [ -d /etc/templates ]; then \
+      chmod -R 755 /etc/templates; \
+    fi && \
+    if [ -d /etc/traefik ]; then \
+      chmod -R 755 /etc/traefik; \
+    fi
 
 ARG BUILD_ARCH
-ARG TRAEFIK_VERSION
-
-RUN if [ "${BUILD_ARCH}" == "aarch64" ]; then BUILD_ARCH=arm64; \
-    elif [ "${BUILD_ARCH}" == "i386" ]; then BUILD_ARCH=386; \
-    elif [ "${BUILD_ARCH}" == "armhf" ]; then BUILD_ARCH=armv7; \
-    fi && \
-    apk add --no-cache gomplate && \
-    wget --quiet -O /tmp/traefik.tar.gz "https://github.com/traefik/traefik/releases/download/v${TRAEFIK_VERSION}/traefik_v${TRAEFIK_VERSION}_linux_${BUILD_ARCH}.tar.gz" && \
-    tar xzvf /tmp/traefik.tar.gz -C /usr/local/bin traefik && \
-    chmod +x /usr/local/bin/traefik && \
-    rm -f /tmp/*
-
-COPY rootfs /
+ARG BUILD_DATE
+ARG BUILD_DESCRIPTION
+ARG BUILD_NAME
+ARG BUILD_REF
+ARG BUILD_REPOSITORY
+ARG BUILD_VERSION
 
 LABEL \
-    io.hass.name="Treafik for ${BUILD_ARCH}" \
-    io.hass.description="Home Assistant Unofficial Add-on: ${BUILD_ARCH} Traefik image" \
-    maintainer="Charles Stephen Thompson <hassio@cst.wtf>" \
-    org.opencontainers.image.title="Traefik for ${BUILD_ARCH}" \
-    org.opencontainers.image.description="Home Assistant Unofficial Add-on: ${BUILD_ARCH} Traefik image" \
-    org.opencontainers.image.vendor="Charles Stephen Thompson" \
-    org.opencontainers.image.authors="Charles Stephen Thompson <hassio@cst.wtf>" \
-    org.opencontainers.image.url="https://github.com/charlestephen/home-assistant-addons/" \
-    org.opencontainers.image.source="https://github.com/charlestephen/home-assistant-addons/" \
-    org.opencontainers.image.documentation="https://github.com/charlestephen/home-assistant-addons/blob/master/traefik/README.md" \
+    io.hass.name="${BUILD_NAME}" \
+    io.hass.description="${BUILD_DESCRIPTION}" \
+    io.hass.arch="${BUILD_ARCH}" \
+    io.hass.type="addon" \
+    io.hass.version=${BUILD_VERSION} \
+    maintainer="CharleStephen (https://github.com/charlestephen)" \
+    org.opencontainers.image.title="${BUILD_NAME}" \
+    org.opencontainers.image.description="${BUILD_DESCRIPTION}" \
+    org.opencontainers.image.vendor="Home Assistant Add-ons" \
+    org.opencontainers.image.authors="CharleStephen (https://github.com/charlestephen)" \
+    org.opencontainers.image.licenses="MIT" \
+    org.opencontainers.image.url="https://github.com/charlestephen" \
+    org.opencontainers.image.source="https://github.com/${BUILD_REPOSITORY}" \
+    org.opencontainers.image.documentation="https://github.com/${BUILD_REPOSITORY}/blob/main/README.md" \
     org.opencontainers.image.created=${BUILD_DATE} \
     org.opencontainers.image.revision=${BUILD_REF} \
     org.opencontainers.image.version=${BUILD_VERSION}

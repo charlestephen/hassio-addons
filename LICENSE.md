@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019-2020 Alex van den Hoogen
+Copyright (c) 2025 Charles Stephen Thompson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

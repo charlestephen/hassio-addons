@@ -1,0 +1,30 @@
+name: "Tailscale"
+version: "latest"
+slug: "tailscale"
+description: "Connect Home Assistant to your Tailscale network"
+arch:
+- amd64
+- aarch64
+- armv7
+- armhf
+- i386
+startup: "application"
+boot: "auto"
+map:
+- type: data
+
+options:
+  auth_key: null
+  exit_node: false
+  advertise_routes: []
+  accept_routes: false
+  host_stack: false
+  state_file: /data/tailscale.state
+
+schema:
+  auth_key: str
+  exit_node: bool
+  advertise_routes: "list(str)"
+  accept_routes: bool
+  host_stack: bool
+  state_file: str
