@@ -36,8 +36,7 @@ options:
   custom_config: false
   log_level: info
   access_logs: false
-  forwarded_headers_insecure: false
-dynamic_configuration_path: /config/traefik/dynamic/
+forwarded_headers_insecure: false
   letsencrypt:
     enabled: false
     resolvers: []
@@ -48,8 +47,7 @@ schema:
   custom_config: bool
   log_level: list(trace|debug|info|notice|warning|error|fatal)
   access_logs: bool
-  forwarded_headers_insecure: bool
-dynamic_configuration_path: str
+forwarded_headers_insecure: bool
   letsencrypt:
     enabled: bool
     email: email?
