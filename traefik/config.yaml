@@ -28,7 +28,6 @@ arch:
 - armhf
 - armv7
 - i386
-image: "ghcr.io/charlestephen/hassio-addons/traefik-{{ arch }}:{{ version }}"
 map:
 - addon_config:rw
 - ssl:rw
