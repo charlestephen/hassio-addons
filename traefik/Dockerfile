@@ -2,8 +2,8 @@ ARG BUILD_FROM=ghcr.io/hassio-addons/base:18.0.2
 
 FROM ${BUILD_FROM}
 
-ARG NGINX_VERSION=1.28.0
-ARG TRAEFIK_VERSION=3.4.3
+ARG NGINX_VERSION=1.28.0-r3
+ARG TRAEFIK_VERSION=3.4.0-r0
 
 RUN apk add --no-cache \
             nginx=${NGINX_VERSION} \
