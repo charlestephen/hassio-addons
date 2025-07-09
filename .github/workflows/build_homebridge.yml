@@ -1,0 +1,35 @@
+name: 'Build and test homebridge addon'
+
+env:
+  ADDON_DIRECTORY: homebridge
+
+on:
+  push:
+    paths:
+      - 'homebridge/**'
+    branches:
+      - main
+  schedule:
+    - cron: "0 9 * * 0"
+  pull_request:
+    paths:
+      - 'homebridge/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Test build of homebridge addon
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      # https://github.com/home-assistant/builder
+      - name: Test build
+        uses: home-assistant/builder@master
+        with:
+          args: |
+            --test \
+            --all \
+            --target /data/${ADDON_DIRECTORY} \
+            --docker-hub ghcr.io/charlestephen \
+            --image ${ADDON_DIRECTORY}-addon
