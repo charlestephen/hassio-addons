@@ -1,6 +1,6 @@
 build_from:
-  amd64: tailscale/tailscale:latest
-  aarch64: tailscale/tailscale:latest
-  armv7: tailscale/tailscale:latest
-  armhf: tailscale/tailscale:latest
-  i386: tailscale/tailscale:latest
+amd64: tailscale/tailscale:1.84.3
+aarch64: tailscale/tailscale:1.84.3
+armv7: tailscale/tailscale:1.84.3
+armhf: tailscale/tailscale:1.84.3
+i386: tailscale/tailscale:1.84.3

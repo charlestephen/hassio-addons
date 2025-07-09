@@ -39,6 +39,8 @@ forwarded_headers_insecure: false
   letsencrypt:
 enabled: false
     resolvers: []
+metrics:
+  enabled: true
   env_vars: []
 schema:
 custom_config: bool
@@ -53,5 +55,7 @@ challenge_type: match(tlsChallenge|httpChallenge|dnsChallenge)?
     delayBeforeCheck: int?
     resolvers:
 - str?
+metrics:
+  enabled: bool
   env_vars:
 - str

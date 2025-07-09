@@ -4,10 +4,11 @@
 # ==============================================================================
 
 readonly config_dir="/config"
+readonly dynamic_dir="$config_dir/dynamic"
 readonly ssl_dir="/ssl/traefik"
 readonly log_dir="$config_dir/log"
 readonly static_file="$config_dir/traefik.yaml"
-readonly dynamic_file="$config_dir/dynamic.yaml"
+readonly dynamic_file="$config_dir/$dynamic_dir/dynamic.yaml"
 readonly static_template="/etc/templates/traefik.yaml.templ"
 readonly dynamic_template="/etc/templates/dynamic.yaml.templ"
 
@@ -19,6 +20,10 @@ chmod -R 600 $ssl_dir
 bashio::log.info "Ensuring directory '$config_dir' exists ..."
 mkdir -v -p $config_dir/
 chmod -R 755 $config_dir
+
+bashio::log.info "Ensuring directory '$config_dir/$dynamic_dir' exists ..."
+mkdir -v -p $config_dir/$dynamic_dir
+chmod -R 755 $config_dir/$dynamic_dir
 
 if bashio::config.true 'access_logs'; then
   bashio::log.info "Ensuring directory '$log_dir' exists ..."
