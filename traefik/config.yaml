@@ -16,8 +16,8 @@ ingress_entry: dashboard/
 panel_icon: mdi:earth-arrow-right
 ports:
   80/tcp: 80
-443/tcp: 443
-8080/tcp: 8080
+  443/tcp: 443
+  8080/tcp: 8080
 ports_description:
   80/tcp: HTTP
   443/tcp: HTTPS
@@ -32,30 +32,30 @@ map:
 - addon_config:rw
 - ssl:rw
 options:
-custom_config: false
+  custom_config: false
   log_level: info
-access_logs: false
-forwarded_headers_insecure: false
+  access_logs: false
+  forwarded_headers_insecure: false
   letsencrypt:
-enabled: false
+    enabled: false
     resolvers: []
-metrics:
-  enabled: true
+  metrics:
+    enabled: true
   env_vars: []
 schema:
-custom_config: bool
+  custom_config: bool
   log_level: list(trace|debug|info|notice|warning|error|fatal)
   access_logs: bool
-forwarded_headers_insecure: bool
+  forwarded_headers_insecure: bool
   letsencrypt:
     enabled: bool
     email: email?
-challenge_type: match(tlsChallenge|httpChallenge|dnsChallenge)?
+    challenge_type: match(tlsChallenge|httpChallenge|dnsChallenge)?
     provider: str?
     delayBeforeCheck: int?
     resolvers:
-- str?
-metrics:
-  enabled: bool
+    - str?
+  metrics:
+    enabled: bool
   env_vars:
-- str
+  - str
