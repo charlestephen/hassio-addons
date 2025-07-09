@@ -20,10 +20,6 @@ https://github.com/charlestephen/hassio-addons
 
 [//]: # "ADDONLIST_START"
 
-### &#10003; [Healthchecks](healthchecks/)
-
-- A simple healthchecks server to monitor your services.
-
 ### &#10003; [Homebridge](homebridge/)
 
 - A containerized version of Homebridge, a lightweight NodeJS server that emulates the iOS HomeKit API.
