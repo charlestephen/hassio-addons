@@ -33,30 +33,30 @@ map:
 - addon_config:rw
 - ssl:rw
 options:
-  custom_config: false
-  log_level: info
-  access_logs: false
+custom_config: false
+log_level: info
+access_logs: false
 forwarded_headers_insecure: false
-  letsencrypt:
-    enabled: false
-    resolvers: []
-  metrics:
-    enabled: true
-  env_vars: []
+letsencrypt:
+  enabled: false
+  resolvers: []
+metrics:
+  enabled: true
+env_vars: []
 schema:
-  custom_config: bool
-  log_level: list(trace|debug|info|notice|warning|error|fatal)
-  access_logs: bool
+custom_config: bool
+log_level: list(trace|debug|info|notice|warning|error|fatal)
+access_logs: bool
 forwarded_headers_insecure: bool
-  letsencrypt:
-    enabled: bool
-    email: email?
-    challenge_type: match(tlsChallenge|httpChallenge|dnsChallenge)?
-    provider: str?
-    delayBeforeCheck: int?
-    resolvers:
-    - str?
-  metrics:
-    enabled: bool
-  env_vars:
-  - str
+letsencrypt:
+  enabled: bool
+  email: email?
+  challenge_type: match(tlsChallenge|httpChallenge|dnsChallenge)?
+  provider: str?
+  delayBeforeCheck: int?
+  resolvers:
+  - str?
+metrics:
+  enabled: bool
+env_vars:
+- str
