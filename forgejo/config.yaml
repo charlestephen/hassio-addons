@@ -1,0 +1,44 @@
+name: Forgejo
+version: "11.0.3"
+slug: forgejo
+codenotary: info@fabiogaravini.dev
+description: Forgejo is a Git hosting, code review, team collaboration, package registry, and CI/CD
+url: https://about.foregejo.com/
+webui: http://[HOST]:[PORT:3000]
+arch:
+- aarch64
+- amd64
+init: false
+map:
+- type: addon_config
+  read_only: false
+- type: data
+  read_only: false
+- type: share
+  read_only: false
+- type: ssl
+backup: cold
+backup_exclude:
+- "**/logs"
+schema:
+  USER_UID: int(1000,)
+  USER_GID: int(1000,)
+  TZ: str?
+  DISABLE_REGISTRATION: bool
+  LFS_START_SERVER: bool
+  DISABLE_SSH: bool
+  SECRET_KEY: password
+options:
+  USER_UID: 1000
+  USER_GID: 1000
+  TZ: Etc/UTC
+  DISABLE_REGISTRATION: false
+  LFS_START_SERVER: true
+  DISABLE_SSH: false
+  SECRET_KEY: "RNXVG8MSeh5ik6abGFctBMllvVAFWmP2"
+ports:
+  3000/tcp: 3080
+  22/tcp: 222
+ports_description:
+  3000/tcp: Web UI
+  22/tcp: SSH

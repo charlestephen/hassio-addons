@@ -1,0 +1,5 @@
+build_from:
+  aarch64: codeberg.org/forgejo/forgejo:11
+  amd64: codeberg.org/forgejo/forgejo:11
+codenotary:
+  signer: info@fabiogaravini.dev
