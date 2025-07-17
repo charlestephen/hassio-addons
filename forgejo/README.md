@@ -14,7 +14,7 @@
 [stable-badge]: https://img.shields.io/badge/Addon%20stage-stable-green.svg?style=for-the-badge
 
 ![screenshot](https://codeberg.org/forgejo)
-out.gitea
+
 [Forgejo](https://codeberg.org/forgejo) is a painless, self-hosted, all-in-one software development service. It includes Git hosting, code review, team collaboration, package registry, and CI/CD. It is similar to GitHub, Bitbucket, Gitea and GitLab.
 
 ## 🌟 Key Features

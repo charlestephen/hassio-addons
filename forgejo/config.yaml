@@ -1,9 +1,9 @@
 name: Forgejo
 version: "11.0.3"
 slug: forgejo
-codenotary: info@fabiogaravini.dev
+codenotary: hassio@cst.wtf
 description: Forgejo is a Git hosting, code review, team collaboration, package registry, and CI/CD
-url: https://about.foregejo.com/
+url: https://codeberg.org/forgejo
 webui: http://[HOST]:[PORT:3000]
 arch:
 - aarch64
@@ -31,7 +31,7 @@ schema:
 options:
   USER_UID: 1000
   USER_GID: 1000
-  TZ: Etc/UTC
+TZ: America/New_York
   DISABLE_REGISTRATION: false
   LFS_START_SERVER: true
   DISABLE_SSH: false
